@@ -1,0 +1,9 @@
+<h1>Channels List</h1>
+<ul>
+  <% @channels.each do |channel| %>
+    <li> <%= link_to channel.name, channel_chats_path(channel) %> 
+         <%#= link_to "Subscribe", subscribe_channel_path(channel), method: :post %>
+         <%#= link_to "Unsubscribe", unsubscribe_channel_path(channel), method: :delete %>
+    </li>
+  <% end %>
+</ul>

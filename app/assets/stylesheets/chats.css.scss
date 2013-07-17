@@ -1,0 +1,18 @@
+.chat-container {
+  max-height: 400px;
+  background: #fafcfe;
+  overflow: scroll;
+
+  p {
+    padding: 10px;
+    border: 1px solid #d0dff5;
+    background: #e9f0fa;
+  }
+}
+
+.chat-form{
+  padding-top: 10px;
+  textarea {
+    width: 80%;
+  }
+}
