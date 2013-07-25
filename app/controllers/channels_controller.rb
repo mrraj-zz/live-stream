@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_filter :find_channel, only: [:subscribe, :unsubscribe]
+  before_action :set_channel, only: [:subscribe, :unsubscribe]
 
   def index
     @channels = Channel.scoped
@@ -16,7 +16,7 @@ class ChannelsController < ApplicationController
   end
 
   private
-  def find_channel
+  def set_channel
     @channel = Channel.find(params[:id])
   end
 end

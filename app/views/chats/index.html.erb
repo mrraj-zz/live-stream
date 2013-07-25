@@ -15,6 +15,18 @@
   <% end %>
 </div>
 
+<%= content_for :channel_users do %>
+  <div class="span3">
+    <div class="well sidebar-nav">
+      <h3><%= @channel.name %> Channel Users List</h3>
+      <ul class="nav nav-list">
+        <% @channel.members.each do |member| %>
+          <li><%= link_to member.email, "#" %></li>
+        <% end %>
+      </ul>
+    </div><!--/.well -->
+  </div><!--/span-->
+<% end %>
 
 <%= content_for :custom_javascript do %>
   <%= javascript_tag do %>
@@ -22,7 +34,8 @@
       var eventSource = new EventSource("/channels/<%= @channel.id %>/chats/chat"), message;
       eventSource.addEventListener('push-message', function (e) {
         message = JSON.parse(e.data);
-        $("#chat-messages").append($('<p>').text(message.message));
+        $("#chat-messages").append($("<p><span class='chat-username'>"+ message.username +" : </span>"+ message.message +"</p>"));
+        $("#message").val("");
       });
     });
   <% end %>

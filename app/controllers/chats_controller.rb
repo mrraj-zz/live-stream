@@ -2,14 +2,15 @@ require 'reloader/sse'
 
 class ChatsController < ApplicationController
   include ActionController::Live
-  before_filter :current_channel
+  before_action :set_channel
+  before_action :check_channel_members, only: [:index, :create, :chat]
 
   def index
   end
 
   def create
     response.headers['Content-Type'] = 'text/javascript'
-    $redis.publish(@channel.name, { "message" => params[:message]}.to_json)
+    $redis.publish(@channel.name, { "message" => params[:message], "username" => current_user.email}.to_json)
     render nothing: true
   end
 
@@ -31,7 +32,13 @@ class ChatsController < ApplicationController
   end
 
   private
-  def current_channel
+  def set_channel
     @channel = Channel.find(params[:channel_id])
+  end
+
+  def check_channel_members
+    unless @channel.subscribed?(current_user)
+      redirect_to(channels_path, alert: "Please subscribe the channel, then only allowed to enter into chat room.")
+    end
   end
 end

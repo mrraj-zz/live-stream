@@ -4,6 +4,9 @@
   overflow: scroll;
 
   p {
+    .chat-username {
+      font-weight: bold;
+    }
     padding: 10px;
     border: 1px solid #d0dff5;
     background: #e9f0fa;

@@ -68,15 +68,15 @@
           </div>
           <div class="span3">
             <div class="well sidebar-nav">
-              <h3>Sidebar</h3>
+              <h3>Online Users</h3>
               <ul class="nav nav-list">
-                <li class="nav-header">Online Users</li>
                 <% @online_users.each do |online_user| %>
                   <li><%= link_to online_user.email, "#" %></li>
                 <% end %>
               </ul>
             </div><!--/.well -->
           </div><!--/span-->
+          <%= yield :channel_users %>
         </div><!--/row-->
 
       <footer>
