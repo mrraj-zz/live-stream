@@ -6,11 +6,11 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by_email(params[:user][:email])
+    ldap_auth = LdapAuth.new(params[:user][:username], params[:user][:password])
 
-    if user && user.authenticate(params[:user][:password])
-      session[:user_id] = user.id
-      @sess.update_attributes(user_id: user.id)
+    if (ldap_user = ldap_auth.authenticate?)
+      session[:ldap_username] = ldap_user.username
+      @sess.update_attributes(username: ldap_user.username)
       redirect_to channels_path, notice: "User logged in successfully"
     else
       render :new, alert: "Login failed"
@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    session[:ldap_username] = nil
     @sess.destroy
     redirect_to new_session_path, notice: "Logged out successfully"
   end

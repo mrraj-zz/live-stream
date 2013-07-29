@@ -3,11 +3,7 @@ LiveStream::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
 
-  resources :live_streams, only: [:index, :create] do
-    collection do
-      get :chat_message
-    end
-  end
+  resources :live_streams, only: [:index]
   
   resources :channels, only: [:index] do
     member do

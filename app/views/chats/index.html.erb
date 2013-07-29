@@ -21,7 +21,7 @@
       <h3><%= @channel.name %> Channel Users List</h3>
       <ul class="nav nav-list">
         <% @channel.members.each do |member| %>
-          <li><%= link_to member.email, "#" %></li>
+          <li><%= link_to member, "#" %></li>
         <% end %>
       </ul>
     </div><!--/.well -->
@@ -34,7 +34,7 @@
       var eventSource = new EventSource("/channels/<%= @channel.id %>/chats/chat"), message;
       eventSource.addEventListener('push-message', function (e) {
         message = JSON.parse(e.data);
-        $("#chat-messages").append($("<p><span class='chat-username'>"+ message.username +" : </span>"+ message.message +"</p>"));
+        $("#chat-messages").append($("<p class='"+message.bg_color+"'><span class='chat-username'>"+ message.username +" : </span>"+ message.message +"</p>"));
         $("#message").val("");
       });
     });

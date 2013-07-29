@@ -37,6 +37,7 @@ gem 'redis'
 gem 'activerecord-session_store'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'net-ldap', require: 'net/ldap'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

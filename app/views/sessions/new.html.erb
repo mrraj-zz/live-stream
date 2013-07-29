@@ -1,6 +1,6 @@
 <%= form_for(:user, url: sessions_path, as: :post) do |f| %>
-  <%= f.label :email %>
-  <%= f.text_field :email %>
+  <%= f.label :username %>
+  <%= f.text_field :username %>
   <%= f.label :password %>
   <%= f.password_field :password %></br>
   <%= f.submit "Login"  %>

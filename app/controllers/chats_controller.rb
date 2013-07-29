@@ -10,7 +10,8 @@ class ChatsController < ApplicationController
 
   def create
     response.headers['Content-Type'] = 'text/javascript'
-    $redis.publish(@channel.name, { "message" => params[:message], "username" => current_user.email}.to_json)
+    $redis.publish(@channel.name, { "message" => params[:message], "username" => current_user.username, 
+                                    "bg_color" => "bg-color-#{current_user.username.length%5}"}.to_json)
     render nothing: true
   end
 
@@ -37,6 +38,8 @@ class ChatsController < ApplicationController
   end
 
   def check_channel_members
+    return if @channel.name =~ /public/i
+
     unless @channel.subscribed?(current_user)
       redirect_to(channels_path, alert: "Please subscribe the channel, then only allowed to enter into chat room.")
     end

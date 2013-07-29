@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-    @current_user ||= session[:user_id] && User.find(session[:user_id])
+    @current_user ||= session[:ldap_username] && LdapUser.find_user(session[:ldap_username])
   end
 
   private
@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
   end
 
   def online_users
-    @online_users = User.joins(:sessions).uniq
+    @online_users = Session.online_users.uniq
   end
 end

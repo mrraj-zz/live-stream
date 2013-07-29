@@ -5,6 +5,6 @@ class Channel < ActiveRecord::Base
   end
 
   def members
-    User.find($redis.smembers(name))
+    $redis.smembers(name)
   end
 end

@@ -52,7 +52,7 @@
             <ul class="nav pull-right">
               <% if current_user %>
                 <li><%= link_to current_user.email, "#"  %></li>
-                <li><%= link_to "Sign Out", session_path(current_user), method: :delete  %></li>
+                <li><%= link_to "Sign Out", session_path(current_user.id), method: :delete  %></li>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->
@@ -71,7 +71,7 @@
               <h3>Online Users</h3>
               <ul class="nav nav-list">
                 <% @online_users.each do |online_user| %>
-                  <li><%= link_to online_user.email, "#" %></li>
+                  <li><%= link_to online_user, "#" %></li>
                 <% end %>
               </ul>
             </div><!--/.well -->
