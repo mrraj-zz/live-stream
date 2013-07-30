@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
-  before_filter :current_session, only: [:create, :destroy]
-  skip_before_filter :sign_in, only: [:new, :create]
+
+  before_action :current_session, only: [:create, :destroy]
+  skip_before_action :sign_in, only: [:new, :create]
 
   def new
   end
@@ -13,13 +14,14 @@ class SessionsController < ApplicationController
       @sess.update_attributes(username: ldap_user.username)
       redirect_to channels_path, notice: "User logged in successfully"
     else
-      render :new, alert: "Login failed"
+      flash.now[:error] = "Ivalid username/password"
+      render :new
     end
   end
 
   def destroy
     session[:ldap_username] = nil
-    @sess.destroy
+    @sess.update_attributes(username: nil)
     redirect_to new_session_path, notice: "Logged out successfully"
   end
 

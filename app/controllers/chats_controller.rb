@@ -2,6 +2,7 @@ require 'reloader/sse'
 
 class ChatsController < ApplicationController
   include ActionController::Live
+
   before_action :set_channel
   before_action :check_channel_members, only: [:index, :create, :chat]
 
@@ -11,7 +12,7 @@ class ChatsController < ApplicationController
   def create
     response.headers['Content-Type'] = 'text/javascript'
     $redis.publish(@channel.name, { "message" => params[:message], "username" => current_user.username, 
-                                    "bg_color" => "bg-color-#{current_user.username.length%5}"}.to_json)
+                                    "bg_color" => "bg-color-#{current_user.username.length % 5}"}.to_json)
     render nothing: true
   end
 

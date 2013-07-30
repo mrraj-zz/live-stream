@@ -34,7 +34,9 @@
       var eventSource = new EventSource("/channels/<%= @channel.id %>/chats/chat"), message;
       eventSource.addEventListener('push-message', function (e) {
         message = JSON.parse(e.data);
-        $("#chat-messages").append($("<p class='"+message.bg_color+"'><span class='chat-username'>"+ message.username +" : </span>"+ message.message +"</p>"));
+        $("<p class='"+message.bg_color+"'><span class='chat-username'>"+message.username+" : </span>"+message.message+"</p>")
+        .hide()
+        .appendTo($("#chat-messages")).fadeIn(1000);
         $("#message").val("");
       });
     });
