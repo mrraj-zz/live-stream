@@ -24,6 +24,7 @@ To enable live streaming in a controller, do the following,
 
 4 . Here is an example of a live streaming controller from the Rails docs:
 
+
   class LiveStreamController < ApplicationController
 
     include ActionController::Live
