@@ -24,21 +24,20 @@ To enable live streaming in a controller, do the following,
 
 4 . Here is an example of a live streaming controller from the Rails docs:
 
+    class LiveStreamController < ApplicationController
 
-  class LiveStreamController < ApplicationController
+      include ActionController::Live
 
-    include ActionController::Live
+      def stream
+        response.headers["Content-Type"] = "text/event-stream"
 
-    def stream
-      response.headers["Content-Type"] = "text/event-stream"
-
-      100.times do |count|
-        response.stream.write("Hello World : #{count}")
-        sleep 1
+        100.times do |count|
+          response.stream.write("Hello World : #{count}")
+          sleep 1
+        end
+        response.stream.close
       end
-      response.stream.close
     end
-  end
 
 2 . LDAP Integration:
 =====================
