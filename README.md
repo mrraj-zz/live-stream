@@ -26,6 +26,7 @@ To enable live streaming in a controller, do the following,
 
   class LiveStreamController < ApplicationController
     include ActionController::Live
+
     def stream
       response.headers["Content-Type"] = "text/event-stream"
 
