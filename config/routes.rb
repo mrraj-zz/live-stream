@@ -7,6 +7,7 @@ LiveStream::Application.routes.draw do
     resources :chats, only: [:index, :create] do
       collection do
         get :chat
+        get :exit_chatroom
       end
     end
   end

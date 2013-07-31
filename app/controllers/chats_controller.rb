@@ -35,6 +35,14 @@ class ChatsController < ApplicationController
     sse.close
   end
 
+  def exit_chatroom
+    $redis.publish(@channel.name, { "message"  => "#{current_user.username} is exiting from chat room", 
+                                    "username" => current_user.username, 
+                                    "bg_color" => "bg-color-#{current_user.username.length % 5}",
+                                    "time"     => Time.now.strftime("%T")}.to_json)
+    redirect_to channels_path
+  end
+
   private
   def set_channel
     @channel = Channel.find(params[:channel_id])

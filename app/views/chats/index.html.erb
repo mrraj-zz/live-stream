@@ -3,7 +3,8 @@
 </div>
 
 <div class="row">
-  <h3>Chat Messages <span>On : <%= Time.now.strftime("%d %h %Y") %> </span></h3>
+  <div class="span6"> <h3>Chat Messages <span>On : <%= Time.now.strftime("%d %h %Y") %> </span></h3></div>
+  <div class="span3"> <%= link_to "EXIT CHAT ROOM", exit_chatroom_channel_chats_path(@channel), class: "pull-right btn" %></div>
 </div>
 <div class="row chat-container" id="chat-messages">
 </div>
