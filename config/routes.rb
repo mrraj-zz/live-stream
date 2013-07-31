@@ -1,9 +1,7 @@
 LiveStream::Application.routes.draw do
-  root to: "live_streams#index"
+  root to: "channels#index"
 
   resources :sessions, only: [:new, :create, :destroy]
-
-  resources :live_streams, only: [:index]
   
   resources :channels, only: [:index] do
     resources :chats, only: [:index, :create] do
