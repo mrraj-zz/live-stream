@@ -6,3 +6,16 @@
     </div>
   <% end %>
 </div>
+
+<%= content_for :online_users do %>
+  <div class="span3">
+    <div class="well sidebar-nav">
+      <h3>Online Users</h3>
+      <ul class="nav nav-list">
+        <% @online_users.each do |online_user| %>
+          <li><%= link_to online_user, "#" %></li>
+        <% end %>
+      </ul>
+    </div><!--/.well -->
+  </div><!--/span-->
+<% end %>

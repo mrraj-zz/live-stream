@@ -66,17 +66,7 @@
             <%= bootstrap_flash %>
             <%= yield %>
           </div>
-          <div class="span3">
-            <div class="well sidebar-nav">
-              <h3>Online Users</h3>
-              <ul class="nav nav-list">
-                <% @online_users.each do |online_user| %>
-                  <li><%= link_to online_user, "#" %></li>
-                <% end %>
-              </ul>
-            </div><!--/.well -->
-          </div><!--/span-->
-          <%= yield :channel_users %>
+          <%= yield :online_users %>
         </div><!--/row-->
 
       <footer>
