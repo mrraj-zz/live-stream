@@ -3,7 +3,7 @@
 </div>
 
 <div class="row">
-  <h3>Chat Messages</h3>
+  <h3>Chat Messages <span>On : <%= Time.now.strftime("%d %h %Y") %> </span></h3>
 </div>
 <div class="row chat-container" id="chat-messages">
 </div>
@@ -31,14 +31,33 @@
 <%= content_for :custom_javascript do %>
   <%= javascript_tag do %>
     $(document).ready(function() {
-      var eventSource = new EventSource("/channels/<%= @channel.id %>/chats/chat"), message;
+      var $eventSource  = new EventSource("/channels/<%= @channel.id %>/chats/chat");
       var $chatMessages = $("#chat-messages");
       var $message      = $("#message");
+      var $username     = "<%= current_user.id %>";
+      var $responseMessage;
+      var $user;
+      var $alignClass;
 
-      eventSource.addEventListener('push-message', function (e) {
-        message = JSON.parse(e.data);
+      $eventSource.addEventListener('push-message', function (e) {
+        $responseMessage = JSON.parse(e.data);
 
-        $("<p class='"+message.bg_color+"'><span class='chat-username'>"+message.username+" : </span>"+message.message+"</p>")
+        if($responseMessage.username == $username) {
+          $user       = "You";
+          $alignClass = "pull-left";
+        }
+        else {
+          $user       = $responseMessage.username;
+          $alignClass = "pull-right";
+        }
+
+        $("<div class='span7 clear "+$alignClass+"'> \
+            <p class='"+$responseMessage.bg_color+"'> \
+              <span class='time'>["+$responseMessage.time+"] </span> \
+              <span class='chat-username'>"+$user+" : </span> \
+              "+$responseMessage.message+" \
+            </p> \
+           </div>")
           .hide()
           .appendTo($chatMessages)
           .fadeIn(1000);
