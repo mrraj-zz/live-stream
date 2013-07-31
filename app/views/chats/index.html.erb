@@ -32,12 +32,18 @@
   <%= javascript_tag do %>
     $(document).ready(function() {
       var eventSource = new EventSource("/channels/<%= @channel.id %>/chats/chat"), message;
+      var $chatMessages = $("#chat-messages");
+      var $message      = $("#message");
+
       eventSource.addEventListener('push-message', function (e) {
         message = JSON.parse(e.data);
+
         $("<p class='"+message.bg_color+"'><span class='chat-username'>"+message.username+" : </span>"+message.message+"</p>")
-        .hide()
-        .appendTo($("#chat-messages")).fadeIn(1000);
-        $("#message").val("");
+          .hide()
+          .appendTo($chatMessages)
+          .fadeIn(1000);
+        $chatMessages.animate({ scrollTop : $chatMessages.prop("scrollHeight") - $chatMessages.height() }, 500);
+        $message.val("");
       });
     });
   <% end %>
