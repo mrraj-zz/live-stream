@@ -6,11 +6,6 @@ LiveStream::Application.routes.draw do
   resources :live_streams, only: [:index]
   
   resources :channels, only: [:index] do
-    member do
-      post :subscribe
-      delete :unsubscribe
-    end
-
     resources :chats, only: [:index, :create] do
       collection do
         get :chat

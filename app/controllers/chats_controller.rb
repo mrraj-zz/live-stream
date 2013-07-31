@@ -7,6 +7,7 @@ class ChatsController < ApplicationController
   before_action :check_channel_members, only: [:index, :create, :chat]
 
   def index
+    @channel.add_member(current_user)
   end
 
   def create

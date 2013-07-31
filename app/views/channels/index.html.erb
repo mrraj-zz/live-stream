@@ -3,11 +3,6 @@
   <% @channels.each do |channel| %>
     <div class="span9">
       <div class="span2"><%= link_to channel.name, channel_chats_path(channel) %></div>
-      <% unless channel.subscribed?(current_user) %>
-        <div class="span2"><%= link_to "Subscribe", subscribe_channel_path(channel), method: :post %></div>
-      <% else %>
-        <div class="span2"><%= link_to "Unsubscribe", unsubscribe_channel_path(channel), method: :delete %></div>
-      <% end %>
     </div>
   <% end %>
 </div>
