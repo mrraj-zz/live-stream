@@ -23,7 +23,7 @@
     <h3><%= @channel.name %> Channel Users List</h3>
     <div class="well sidebar-nav" id="channel-members">
       <ul class="nav nav-list">
-        <% @channel.members.each do |member| %>
+        <% @channel_members.each do |member| %>
           <li><%= link_to member, "#" %></li>
         <% end %>
       </ul>
@@ -42,30 +42,32 @@
       var $user;
       var $alignClass;
 
-      $eventSource.addEventListener('push-message', function (e) {
-        $responseMessage = JSON.parse(e.data);
-
-        if($responseMessage.username == $username) {
+      var $pushMessage = function(data) {
+        if(data.username == $username) {
           $user       = "You";
           $alignClass = "pull-right";
         }
         else {
-          $user       = $responseMessage.username;
+          $user       = data.username;
           $alignClass = "pull-left";
         }
 
         $("<div class='span7 clear "+$alignClass+"'> \
-            <p class='"+$responseMessage.bg_color+"'> \
-              <span class='time'>["+$responseMessage.time+"] </span> \
+            <p class='"+data.bg_color+"'> \
+              <span class='time'> ["+data.time+"] </span> \
               <span class='chat-username'>"+$user+" : </span> \
-              "+$responseMessage.message+" \
+              "+data.message+" \
             </p> \
-           </div>")
+          </div>")
           .hide()
           .appendTo($chatMessages)
           .fadeIn(1000);
         $chatMessages.animate({ scrollTop : $chatMessages.prop("scrollHeight") - $chatMessages.height() }, 500);
         $message.val("");
+      }
+
+      $eventSource.addEventListener('push-message', function (e) {
+        $pushMessage(JSON.parse(e.data));
       });
 
       $eventSource.addEventListener("enter-exit-chatroom", function(e){
@@ -76,6 +78,8 @@
           $("<li><a href='#'>"+member+"</a></li>").appendTo($channelMembers);
         });
         $("#channel-members").html($channelMembers);
+        $responseMessage.username = "";
+        $pushMessage($responseMessage);
       });
     });
   <% end %>

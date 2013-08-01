@@ -4,18 +4,14 @@ class ChatsController < ApplicationController
   include ActionController::Live
 
   before_action :set_channel
+  before_action :subscribe_member, :channel_members, only: [:index]
 
   def index
-    @channel.add_member(current_user)
   end
 
   def create
     response.headers['Content-Type'] = 'text/javascript'
-    $redis.publish(@channel.name, { "message"  => params[:message], 
-                                    "username" => current_user.username, 
-                                    "bg_color" => "bg-color-#{current_user.username.length % 5}",
-                                    "time"     => Time.now.strftime("%T"),
-                                    "event"    => "push-message" }.to_json)
+    RedisServer.instance.push_message(@channel, current_user, { :message => params[:message] })
     render nothing: true
   end
 
@@ -38,12 +34,20 @@ class ChatsController < ApplicationController
   end
 
   def exit_chatroom
-    @channel.remove_member(current_user)
+    RedisServer.instance.unsubscribe(@channel, current_user)
     redirect_to channels_path
   end
 
   private
   def set_channel
     @channel = Channel.find(params[:channel_id])
+  end
+
+  def subscribe_member
+    RedisServer.instance.subscribe(@channel, current_user)
+  end
+
+  def channel_members
+    @channel_members = RedisServer.instance.members(@channel)
   end
 end
