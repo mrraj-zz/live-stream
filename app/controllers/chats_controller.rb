@@ -14,7 +14,8 @@ class ChatsController < ApplicationController
     $redis.publish(@channel.name, { "message"  => params[:message], 
                                     "username" => current_user.username, 
                                     "bg_color" => "bg-color-#{current_user.username.length % 5}",
-                                    "time"     => Time.now.strftime("%T")}.to_json)
+                                    "time"     => Time.now.strftime("%T"),
+                                    "event"    => "push-message" }.to_json)
     render nothing: true
   end
 
@@ -25,7 +26,8 @@ class ChatsController < ApplicationController
 
     redis.subscribe(@channel.name) do |on|
       on.message do |event, data|
-        sse.write(JSON.parse(data), event: "push-message")
+        parsed_data = JSON.parse(data)
+        sse.write(parsed_data, event: parsed_data["event"] || "push-message")
       end
     end
     render nothing: true
@@ -36,10 +38,7 @@ class ChatsController < ApplicationController
   end
 
   def exit_chatroom
-    $redis.publish(@channel.name, { "message"  => "#{current_user.username} is exiting from chat room", 
-                                    "username" => current_user.username, 
-                                    "bg_color" => "bg-color-#{current_user.username.length % 5}",
-                                    "time"     => Time.now.strftime("%T")}.to_json)
+    @channel.remove_member(current_user)
     redirect_to channels_path
   end
 

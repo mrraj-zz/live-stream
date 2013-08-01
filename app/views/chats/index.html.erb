@@ -20,8 +20,8 @@
 
 <%= content_for :online_users do %>
   <div class="span3">
-    <div class="well sidebar-nav">
-      <h3><%= @channel.name %> Channel Users List</h3>
+    <h3><%= @channel.name %> Channel Users List</h3>
+    <div class="well sidebar-nav" id="channel-members">
       <ul class="nav nav-list">
         <% @channel.members.each do |member| %>
           <li><%= link_to member, "#" %></li>
@@ -66,6 +66,16 @@
           .fadeIn(1000);
         $chatMessages.animate({ scrollTop : $chatMessages.prop("scrollHeight") - $chatMessages.height() }, 500);
         $message.val("");
+      });
+
+      $eventSource.addEventListener("enter-exit-chatroom", function(e){
+        $responseMessage    = JSON.parse(e.data);
+        var $channelMembers = $("<ul cass='nav nav-list'></ul>");
+
+        $responseMessage.members.forEach(function(member){
+          $("<li><a href='#'>"+member+"</a></li>").appendTo($channelMembers);
+        });
+        $("#channel-members").html($channelMembers);
       });
     });
   <% end %>
