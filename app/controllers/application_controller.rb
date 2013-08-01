@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-    @current_user ||= session[:ldap_username] && LdapUser.find_user(session[:ldap_username])
+    @current_user ||= session[:ldap_username] && session[:ldap_user]
   end
 
   private

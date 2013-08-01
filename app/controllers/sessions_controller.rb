@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
 
     if (ldap_user = ldap_auth.authenticate?)
       session[:ldap_username] = ldap_user.username
+      session[:ldap_user]     = ldap_user
       @sess.update_attributes(username: ldap_user.username)
       redirect_to channels_path, notice: "User logged in successfully"
     else
