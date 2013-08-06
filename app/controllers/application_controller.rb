@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
   end
 
   def online_users
-    @online_users = Session.online_users.uniq
+    @online_users = Session.online_users
   end
 end

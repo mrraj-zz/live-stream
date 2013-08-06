@@ -9,8 +9,8 @@
 
 <%= content_for :online_users do %>
   <div class="span3">
-    <div class="well sidebar-nav">
-      <h3>Online Users</h3>
+    <h3>Online Users</h3>
+    <div class="well sidebar-nav" id="online-users">
       <ul class="nav nav-list">
         <% @online_users.each do |online_user| %>
           <li><%= link_to online_user, "#" %></li>
