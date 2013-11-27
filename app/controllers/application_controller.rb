@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
   def online_users
     @online_users = Session.online_users.uniq
   end
+
+  def results
+    @results = Resuls.scoped
+  end
 end
